@@ -15,11 +15,8 @@ class ItemOfferListEntity:
 
 	@retry(urllib2.URLError, tries=100, delay=0.1, backoff=1)
 	def createBSObj(self, page=1):
-		html = urllib2.urlopen(self.url+'?startIndex='+str(10*(page-1)))
-		charset = util.getCharset(html)
-		data = html.read()
-		html.close()
-		bsObj = bs(data.decode(charset), 'lxml')
+		url = self.url+'?startIndex='+str(10*(page-1))
+		bsObj = bs(util.getDecodedHtml(url), 'lxml')
 		return bsObj
 
 	def pageProcess(self, bsObj):
@@ -27,7 +24,12 @@ class ItemOfferListEntity:
 		offers = []
 		for offer in div_olpOffer:
 			div_seller = offer.select('div.olpSellerColumn')[0]
-			offers.append(div_seller.select('a')[0].attrs['href'])
+			try:
+				link = div_seller.select('a')[0].attrs['href']
+			except:
+				#self sell
+				link = settings.baseUrl
+			offers.append(link)
 		return offers
 
 	def getPageNumsAndParseFirstPage(self):

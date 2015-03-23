@@ -15,11 +15,8 @@ class SearchItemListEntity:
 	
 	@retry(urllib2.URLError, tries=100, delay=0.1, backoff=1)
 	def createBSObj(self, page=1):
-		html = urllib2.urlopen(self.url+'&page='+str(page))
-		charset = util.getCharset(html)
-		data = html.read()
-		html.close()
-		bsObj = bs(data.decode(charset), 'lxml')
+		url = self.url+'&page='+str(page)
+		bsObj = bs(util.getDecodedHtml(url), 'lxml')
 		return bsObj
 
 	def pageProcess(self, bsObj):
