@@ -3,19 +3,23 @@ from bs4 import BeautifulSoup as bs
 import os
 #------
 import settings
+import util
 from retry import retry
 
 class SearchItemListEntity:
 	def __init__(self, word):
-		self.url = settings.baseUrl + settings.searchPostfix + word
-		self.keyword = word
-		self.page = 1
+		self.keyword = '+'.join(word.split())
+		self.url = settings.baseUrl + settings.searchPostfix \
+				+ self.keyword
 		self.itemlist = []
 	
-	@retry(urllib2.URLError, tries=100, delay=0.1, backoff=2)
+	@retry(urllib2.URLError, tries=100, delay=0.1, backoff=1)
 	def createBSObj(self, page=1):
-		html = urllib2.urlopen(self.url+'&page='+str(page)).read()
-		bsObj = bs(html, 'lxml')
+		html = urllib2.urlopen(self.url+'&page='+str(page))
+		charset = util.getCharset(html)
+		data = html.read()
+		html.close()
+		bsObj = bs(data.decode(charset), 'lxml')
 		return bsObj
 
 	def pageProcess(self, bsObj):
