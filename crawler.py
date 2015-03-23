@@ -17,7 +17,7 @@ if __name__ == '__main__':
 	#searcher.getItems()
 	#print len(searcher.itemlist)
 	#print searcher.itemlist
-	offer = ItemOfferListEntity('B00PGIPZHE')
+	offer = ItemOfferListEntity('B003UIRICC')
 	offer.getOffers()
 	print len(offer.offerlist)
 	print offer.offerlist
