@@ -1,25 +1,27 @@
 import urllib2
 from bs4 import BeautifulSoup as bs
-import os
 #------
 import settings
 import util
-from retry import retry
 
 class SearchItemListEntity:
+	"""Get items after inputting a keyword into the searching field."""
+
 	def __init__(self, word):
+		"""Constructor"""
 		self.keyword = '+'.join(word.split())
 		self.url = settings.baseUrl + settings.searchPostfix \
 				+ self.keyword
 		self.itemlist = []
 	
-	@retry(urllib2.URLError, tries=100, delay=0.1, backoff=1)
 	def createBSObj(self, page=1):
+		"""Different pages, different BeautifulSoup instances."""
 		url = self.url+'&page='+str(page)
 		bsObj = bs(util.getDecodedHtml(url), 'lxml')
 		return bsObj
 
 	def pageProcess(self, bsObj):
+		"""Parsing html content, get target data."""
 		li_res = bsObj.select('#atfResults > ul > li')
 		items = []
 		for li in li_res:
@@ -27,6 +29,8 @@ class SearchItemListEntity:
 		return items
 
 	def getPageNumsAndParseFirstPage(self):
+		"""From first page, get the total page number; 
+		meanwhile parse this page."""
 		bsObj = self.createBSObj()
 
 		#get items from first page
@@ -42,10 +46,12 @@ class SearchItemListEntity:
 	
 
 	def getItemsByPage(self, page):
+		"""Get items from a specific page."""
 		bsObj = self.createBSObj(page)
 		return self.pageProcess(bsObj)
 	
 	def getItems(self):
+		"""Get items of a keyword searching."""
 		pageNums = self.getPageNumsAndParseFirstPage()
 		for i in range(1, pageNums):
 			self.itemlist = self.itemlist + self.getItemsByPage(i+1)
