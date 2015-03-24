@@ -25,7 +25,11 @@ class SearchItemListEntity:
 		li_res = bsObj.select('#atfResults > ul > li')
 		items = []
 		for li in li_res:
-			items.append(li.attrs['data-asin'])
+			try:
+				name = li.select('h2')[0].text.encode('utf-8')
+			except:
+				name = ''
+			items.append({'asin': li.attrs['data-asin'], 'name': name})
 		return items
 
 	def getPageNumsAndParseFirstPage(self):

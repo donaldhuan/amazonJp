@@ -16,15 +16,15 @@ class Crawler:
 	
 	def run(self):
 		for keyword in self.keywords:
-			file_handler = open('data/'+'_'.join(keyword.split()), 'w+')
+			file_handler = open('data/'+'_'.join(keyword.split())+'.txt', 'w+')
 			file_handler.write('********************************************************************\n')
 			file_handler.write('Keyword: '+keyword+'\n')
 			search_entity = SearchItemListEntity(keyword)
 			search_entity.getItems()
 			for item in search_entity.itemlist:
 				file_handler.write('-------------------------------------------------------------------\n')
-				file_handler.write(item+'\n')
-				offer_entity = ItemOfferListEntity(item)
+				file_handler.write('Item name: '+item['name']+'\n')
+				offer_entity = ItemOfferListEntity(item['asin'])
 				offer_entity.getOffers()
 				for offer in offer_entity.offerlist: 
 					file_handler.write(offer+'\n')
@@ -32,11 +32,11 @@ class Crawler:
 
 
 if __name__ == '__main__':
-	#search_entity = SearchItemListEntity('iphone 6')
+	#search_entity = SearchItemListEntity('ssssssssss')
 	#search_entity.getItems()
 	#print search_entity.itemlist
 	#offer_entity = ItemOfferListEntity('B003UIRICC')
 	#offer_entity.getOffers()
 	#print offer_entity.offerlist
-	crawler = Crawler('ip ; oo')
+	crawler = Crawler('ssssssssss')
 	crawler.run()
