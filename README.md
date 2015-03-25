@@ -7,9 +7,9 @@ This project is to crawl data from amazon(Japan).
 
 # Requirements
  1. Python2.7+ (not version 3)
- 2. python Lib: bs4, lxml
+ 2. Python Lib: bs4, lxml
 
 # How to use
-Open the searchlist.txt file, type in the searching words(each word a single line);
-open a terminal, use command 'python crawler.py'. Finally, the parsing result will be
-in the data directoy, the file is named with each searching word.
+ Open the searchlist.txt file, type in the searching words(each word a single line);
+ Open a terminal, use command 'python crawler.py';
+ Finally, the parsing result will be in the data directoy, the file is named with each searching word.
