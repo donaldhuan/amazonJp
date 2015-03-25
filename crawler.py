@@ -11,11 +11,18 @@ class Crawler:
 	"""A robot to scrapy data from amazon.co.jp with searching words."""
 
 	def __init__(self, words):
-		"""Constructor: words can be split with ';'."""
-		self.keywords = words.split(';')
+		"""Constructor: words can be split with ';', or from a list."""
+		if isinstance(words, list):
+			self.keywords = words
+		else:
+			self.keywords = words.split(';')
 	
 	def run(self):
+		"""Main entrance"""
 		for keyword in self.keywords:
+			keyword = keyword.strip()
+			if keyword == '':
+				continue
 			file_handler = open('data/'+'_'.join(keyword.split())+'.txt', 'w+')
 			file_handler.write('********************************************************************\n')
 			file_handler.write('Keyword: '+keyword+'\n')
@@ -32,11 +39,6 @@ class Crawler:
 
 
 if __name__ == '__main__':
-	#search_entity = SearchItemListEntity('ssssssssss')
-	#search_entity.getItems()
-	#print search_entity.itemlist
-	#offer_entity = ItemOfferListEntity('B003UIRICC')
-	#offer_entity.getOffers()
-	#print offer_entity.offerlist
-	crawler = Crawler('ssssssssss')
+	words = open('searchlist.txt', 'r').readlines()
+	crawler = Crawler(words)
 	crawler.run()

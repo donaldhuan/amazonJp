@@ -9,7 +9,7 @@ class SearchItemListEntity:
 
 	def __init__(self, word):
 		"""Constructor"""
-		self.keyword = '+'.join(word.split())
+		self.keyword = '+'.join(word.strip().split())
 		self.url = settings.baseUrl + settings.searchPostfix \
 				+ self.keyword
 		self.itemlist = []
@@ -22,7 +22,10 @@ class SearchItemListEntity:
 
 	def pageProcess(self, bsObj):
 		"""Parsing html content, get target data."""
+		#div id='atfResults'
 		li_res = bsObj.select('#atfResults > ul > li')
+		#div id='btfResults'
+		li_res = li_res + bsObj.select('#btfResults > ul > li')
 		items = []
 		for li in li_res:
 			try:
