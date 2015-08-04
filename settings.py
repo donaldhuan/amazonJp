@@ -52,4 +52,4 @@ offerPostfix = '/gp/offer-listing/'
 conditions = ['new', 'used', 'refurbished']
 offerConditionPostfix = ['&condition='+cond for cond in conditions]
 
-retry_setting = {'times': 100, 'delay': 0.1, 'backoff': 1}
+retry_setting = {'times': 100, 'delay': 0.1, 'backoff': 0.3}
