@@ -13,3 +13,7 @@ This project is to crawl data from amazon(Japan).
  Open the searchlist.txt file, type in the searching words(each word a single line);
  Open a terminal, use command 'python crawler.py';
  Finally, the parsing result will be in the data directoy, the file is named with each searching word.
+
+# Update
+ 1. Add stategy to crawl bestseller(first three) of each category in amazon.co.jp;
+ 2. Add method to convert asin of amazon to common used eancode(jp);
